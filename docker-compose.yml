@@ -1,0 +1,51 @@
+version: '3'
+services:
+  backend:
+    image: todo-backend-image
+    build: ./todo-backend
+    container_name: todo-backend
+    restart: always
+    env_file:
+      - ./todo-backend/.env.development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./todo-backend:/app
+      - ./todo-backend/node_modules:/app/node_modules
+    depends_on:
+      - mdb
+    networks:
+      - todo-network
+    command: sh -c "npm install && npm start"
+
+  frontend:
+    image: todo-frontend-image
+    build: ./todo-frontend
+    container_name: todo-frontend
+    restart: always
+    stdin_open: true
+    env_file:
+      - ./todo-frontend/.env.development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./todo-frontend:/app
+      - ./todo-frontend/node_modules:/app/node_modules
+    networks:
+      - todo-network
+    command: sh -c "npm install && npm start"
+
+  mdb:
+    image: mongo:3.4
+    container_name: todo-mongodb
+    restart: always
+    volumes:
+      - ./mongodb/data:/data/db
+    ports:
+      - "5432:5432"
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+
