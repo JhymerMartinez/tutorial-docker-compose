@@ -42,7 +42,7 @@ services:
     volumes:
       - ./mongodb/data:/data/db
     ports:
-      - "5432:5432"
+      - "27017:27017"
     networks:
       - todo-network
 
