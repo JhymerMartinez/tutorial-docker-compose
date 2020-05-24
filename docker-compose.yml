@@ -33,7 +33,7 @@ services:
       - ./todo-frontend/node_modules:/app/node_modules
     networks:
       - todo-network
-    command: sh -c "npm install && npm start"
+    command: sh -c "yarn install && yarn start"
 
   mdb:
     image: mongo:3.4
